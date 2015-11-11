@@ -2,19 +2,19 @@
 '''
 Created on Mon Nov  9 11:18:33 2015
 
-@author: graemestclair
+@author: gstclair, sgaul, jzenk
 '''
 
 
 import pandas as pd
 
-fn = '/Users/graemestclair/Documents/python/banklist.xlsx'
+fn = 'banklist.xlsx'
 data = pd.read_excel(fn, sheetname=0)
 df = pd.read_excel(fn, sheetname=0, index = data['CERT'])
 
 
-#1
-print('\nThe column names are: \n', df.columns.values)
+#1 -- count per year
+#print('\nThe column names are: \n', df.columns.values)
 
 year = pd.to_datetime(df['Closing Date'])
 year = year.order()
@@ -25,7 +25,7 @@ year = df['Closing Date'].groupby(data['Closing Date'].map(lambda x: x.year)).co
 print(year)
 
 
-#2 -- 
+#2 -- Most popular by state
 state = df['ST'].groupby(df['ST']).count()
 
 print('\n\nBank Closures By State (Decending Order)\n\n', state.order(ascending = False))
@@ -33,6 +33,7 @@ print('\n\nBank Closures By State (Decending Order)\n\n', state.order(ascending 
 
 print('\n\nStates that had no bank closures:\n\n')
 
+#3 -- States not in list
 states = ['AK','AL','AR','AZ','CA','CO','CT','DE','FL',
 'GA','HI','IA','ID','IL','IN','KS','KY','LA','MA','MD','ME',
 'MI','MN','MO','MS','MT','NC','ND','NE','NH','NJ','NM','NV',
@@ -50,12 +51,12 @@ for index in range(len(statelist)):
 print(states)
 
 
-#3 -- 
+#3 -- Most Popular by city
 city = df['City'].groupby(df['City']).count()
 
 print('\n\nBanks Closures By City (Decending Order)\n\n', city.order(ascending = False))
 
-#4 -- 
+#4 -- Most popular acquirer
 
 acquirer = df['Acquiring Institution'].groupby(df['Acquiring Institution']).count()
 
